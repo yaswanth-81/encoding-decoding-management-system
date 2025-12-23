@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS office_db;
+USE office_db;
+
+CREATE TABLE IF NOT EXISTS office_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+INSERT INTO office_users (username, password)
+VALUES ('USERNAME@2025', 'PASSWORD@2025');
+

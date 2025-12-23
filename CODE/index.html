@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CODING AND DECODING MANAGEMENT SYSTEM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            text-align: center;
+            transition: 0.5s;
+            color: white;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            padding: 20px;
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 26px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Navigation */
+        nav {
+            margin-top: 10px;
+        }
+        .x {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            margin: 0 15px;
+            padding: 10px;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+        .x:hover {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+        }
+
+        /* Intro Text */
+        h4 {
+            font-size: 20px;
+            color: white;
+            margin: 20px 0;
+        }
+
+        /* Encoding & Decoding Image */
+        .coding-image {
+            margin: 20px 0;
+            width: 300px;
+            height: auto;
+        }
+
+        /* Buttons */
+        .logsin {
+            margin-top: 30px;
+        }
+        button {
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 10px;
+        }
+        #b, #c {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            color: white;
+        }
+        button a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Sign-up Section */
+        .sin p {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            padding: 15px;
+            background: #222;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Dark Mode Button */
+        .dark-mode-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body onload="welcomeMessage()">
+
+<header>
+    <h1>WELCOME TO THE "CODING AND DECODING MANAGEMENT SYSTEM"</h1>
+    <nav>
+        <a class="x" href="index.html">HOME</a>
+        <a class="x" href="aboutus.html">ABOUT US</a>
+        <a class="x" href="service.html">SERVICES</a>
+        <a class="x" href="contactus.html">CONTACT US</a>
+        <a class="x" href="gallery.html">GALLERY</a>
+    </nav>
+</header>
+
+<h4>THIS SYSTEM IS DESIGNED TO MANAGE THE ENCODING AND DECODING OF STUDENT HALL TICKETS DURING EXAM EVALUATIONS, ENSURING FAIR AND ANONYMOUS GRADING.</h4>
+
+<img class="coding-image" src="college.webp" alt="Encoding and Decoding Image" style="width: 600px; height: 400px;">
+
+
+<div class="logsin">
+    <button id="b" onclick="confirmLogin()"><a href="loginportal.html">LOGIN</a></button>
+    <div class="sin">
+        <p>DONT HAVE AN ACCOUNT...?</p>
+        <button id="c" onclick="confirmSignup()"><a href="signup.html">SIGNUP</a></button>
+    </div>
+</div>
+
+<footer>
+    All Copyright 2025 coding and decoding management system. All Rights Reserved
+</footer>
+
+<script src="index.js"></script>
+
+</body>
+</html>

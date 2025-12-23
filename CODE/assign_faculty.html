@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Faculty</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin: 0 15px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        nav a:hover {
+            background: #6a11cb;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #6a11cb;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .generate-btn {
+            background: #28a745;
+        }
+        .error-message {
+            color: #dc3545;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a class="x" href="index.html">HOME</a>
+        <a class="x" href="add_exam_subject.html">ADD EXAM, SUBJECT</a>
+        <a class="x" href="assign_faculty.html">ASSIGN FACULTY</a>
+        <a class="x" href="get_assignments.html">FACULTY ASSIGNMENTS</a>
+        <a class="x" href="select_r_t.html">RESULTS</a>
+        <a class="x" href="gallery.html">GALLERY</a>
+    </nav>
+
+    <div class="container">
+        <h1>Assign Faculty</h1>
+
+        <select id="examList">
+            <option value="">Select Exam</option>
+        </select>
+
+        <select id="classList">
+            <option value="">Select Class</option>
+        </select>
+
+        <select id="subjectList">
+            <option value="">Select Subject</option>
+        </select>
+
+        <input type="text" id="facultyId" placeholder="Faculty ID" readonly required>
+        <button class="generate-btn" onclick="assignRandomFaculty()">Assign Random Faculty</button>
+
+        <input type="text" id="hallTicketNo" placeholder="Enter Hall Ticket Number" required>
+
+        <input type="text" id="encodedNo" placeholder="Encoded Number" readonly required>
+        <button class="generate-btn" onclick="generateEncodedNumber()">Generate Encoded Number</button>
+
+        <button onclick="assignFaculty()">Assign Faculty</button>
+
+        <div id="successMessage" class="success-message"></div>
+    </div>
+
+    <script>
+        let facultyIndex = 0; // Global variable to keep track of the current faculty index
+
+        async function loadExams() {
+            const response = await fetch("get_exams.php");
+            const data = await response.json();
+            const examList = document.getElementById("examList");
+            examList.innerHTML = "<option value=''>Select Exam</option>";
+            data.forEach(exam => {
+                const option = document.createElement("option");
+                option.value = exam.exam_id;
+                option.textContent = exam.exam_name;
+                examList.appendChild(option);
+            });
+        }
+
+        async function loadClasses(examId) {
+            const response = await fetch(`get_classes.php?exam_id=${examId}`);
+            const data = await response.json();
+            const classList = document.getElementById("classList");
+            classList.innerHTML = "<option value=''>Select Class</option>";
+            data.forEach(cls => {
+                const option = document.createElement("option");
+                option.value = cls.class_id;
+                option.textContent = cls.class_name;
+                classList.appendChild(option);
+            });
+        }
+
+        async function loadSubjects(classId) {
+            const response = await fetch(`get_subjects.php?class_id=${classId}`);
+            const data = await response.json();
+            const subjectList = document.getElementById("subjectList");
+            subjectList.innerHTML = "<option value=''>Select Subject</option>";
+            data.forEach(subject => {
+                const option = document.createElement("option");
+                option.value = subject.subject_name; // Use subject_name as the value
+                option.textContent = subject.subject_name;
+                subjectList.appendChild(option);
+            });
+        }
+
+        async function assignRandomFaculty() {
+            const subjectElement = document.getElementById("subjectList");
+            const subjectName = subjectElement.value; // Get the selected subject name
+            const facultyIdInput = document.getElementById("facultyId");
+
+            if (!subjectName) {
+                alert("Please select a subject.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`getfacultybysubjectcode.php?subject=${encodeURIComponent(subjectName)}`);
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    // Assign the next faculty member in the list
+                    facultyIdInput.value = data[facultyIndex % data.length].facultyid;
+
+                    // Increment the index for the next assignment
+                    facultyIndex++;
+                } else {
+                    alert("No teacher available for this subject.");
+                }
+            } catch (error) {
+                console.error("Error fetching faculty data:", error);
+            }
+        }
+
+        function generateEncodedNumber() {
+    const hallTicketNo = document.getElementById("hallTicketNo").value.trim();
+    const encodedNoField = document.getElementById("encodedNo");
+
+    if (!hallTicketNo) {
+        alert("Please enter a Hall Ticket Number first.");
+        return;
+    }
+
+    // Map digits to letters
+    const digitToLetterMap = {
+        '0': 'A', '1': 'B', '2': 'C', '3': 'D', '4': 'E', 
+        '5': 'F', '6': 'G', '7': 'H', '8': 'I', '9': 'J'
+    };
+
+    // Convert the hall ticket number digits to corresponding letters
+    let encoded = "";
+    for (let char of hallTicketNo) {
+        if (char in digitToLetterMap) {
+            encoded += digitToLetterMap[char]; // Convert digit to letter
+        } else {
+            encoded += char; // Keep non-numeric characters unchanged
+        }
+    }
+
+    // Append two random uppercase letters
+    const randomSuffix = String.fromCharCode(65 + Math.floor(Math.random() * 26)) +
+                         String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+    encodedNoField.value = `ENC${encoded}${randomSuffix}`;
+}
+
+
+        async function assignFaculty() {
+    const examElement = document.getElementById("examList");
+    const classElement = document.getElementById("classList");
+    const subjectElement = document.getElementById("subjectList");
+
+    // Get the selected option text (name) instead of the value (ID)
+    const exam = examElement.options[examElement.selectedIndex].text;
+    const classValue = classElement.options[classElement.selectedIndex].text;
+    const subject = subjectElement.value; // Subject is already stored as a name
+    const facultyId = document.getElementById("facultyId").value;
+    const hallTicketNo = document.getElementById("hallTicketNo").value;
+    const encodedNo = document.getElementById("encodedNo").value;
+
+    if (!exam || !classValue || !subject || !facultyId || !hallTicketNo || !encodedNo) {
+        alert("Please fill all fields and generate an encoded number.");
+        return;
+    }
+
+    const response = await fetch("assign_faculty.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            exam,
+            class: classValue,
+            subject,
+            facultyId,
+            hallTicketNo,
+            encodedNo,
+        }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+        alert("Faculty assigned successfully!");
+
+        // Clear the form fields after successful submission
+        examElement.value = "";
+        classElement.value = "";
+        subjectElement.value = "";
+        document.getElementById("facultyId").value = "";
+        document.getElementById("hallTicketNo").value = "";
+        document.getElementById("encodedNo").value = "";
+
+        // Reload the exam list (optional, if needed)
+        loadExams();
+    } else {
+        alert("Error: " + data.message);
+    }
+}
+
+        window.onload = () => {
+            loadExams();
+        };
+
+        document.getElementById("examList").addEventListener("change", (e) => {
+            loadClasses(e.target.value);
+        });
+
+        document.getElementById("classList").addEventListener("change", (e) => {
+            loadSubjects(e.target.value);
+        });
+    </script>
+
+
+</body>
+</html>

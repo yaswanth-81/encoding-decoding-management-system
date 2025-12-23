@@ -1,0 +1,6 @@
+Array
+(
+    [exam_id] => 2
+    [class_name] => 1 BTECH 1 SEM
+    [roll_no] => 23001A0516
+)

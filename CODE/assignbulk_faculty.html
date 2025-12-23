@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Faculty</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #6a11cb;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .assignment-container {
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .assignment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    font-size: 18px;
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.faculty-name {
+    transform: translateX(100%);
+    opacity: 0;
+    animation: slideInRight 0.5s ease-out forwards 0.3s;
+}
+
+.checkmark {
+    color: green;
+    font-weight: bold;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards 0.6s;
+}
+
+/* Roll number slides in from the left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Faculty name slides in from the right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Checkmark smoothly fades in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.assignment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    font-size: 18px;
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.faculty-name {
+    transform: translateX(100%);
+    opacity: 0;
+    animation: slideInRight 0.5s ease-out forwards 0.3s;
+}
+
+.checkmark {
+    color: green;
+    font-weight: bold;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards 0.6s;
+}
+
+/* Roll number slides in from the left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Faculty name slides in from the right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Checkmark smoothly fades in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Assign Faculty</h1>
+
+        <select id="examList">
+            <option value="">Select Exam</option>
+        </select>
+
+        <select id="classList">
+            <option value="">Select Class</option>
+        </select>
+
+        <select id="subjectList">
+            <option value="">Select Subject</option>
+        </select>
+
+        <input type="text" id="rollFrom" placeholder="Roll No. From" required>
+        <input type="text" id="rollTo" placeholder="Roll No. To" required>
+
+        <button onclick="assignFaculty()">Assign Faculty</button>
+
+        <div class="assignment-container" id="assignmentContainer">
+            <h3>Assignment Progress</h3>
+        </div>
+
+    </div>
+
+    <script>
+        async function loadExams() {
+            const response = await fetch("get_exams.php");
+            const data = await response.json();
+            const examList = document.getElementById("examList");
+            examList.innerHTML = "<option value=''>Select Exam</option>";
+            data.forEach(exam => {
+                const option = document.createElement("option");
+                option.value = exam.exam_id;
+                option.textContent = exam.exam_name;
+                examList.appendChild(option);
+            });
+        }
+
+        async function loadClasses(examId) {
+            const response = await fetch(`get_classes.php?exam_id=${examId}`);
+            const data = await response.json();
+            const classList = document.getElementById("classList");
+            classList.innerHTML = "<option value=''>Select Class</option>";
+            data.forEach(cls => {
+                const option = document.createElement("option");
+                option.value = cls.class_id;
+                option.textContent = cls.class_name;
+                classList.appendChild(option);
+            });
+        }
+
+        async function loadSubjects(classId) {
+            const response = await fetch(`get_subjects.php?class_id=${classId}`);
+            const data = await response.json();
+            const subjectList = document.getElementById("subjectList");
+            subjectList.innerHTML = "<option value=''>Select Subject</option>";
+            data.forEach(subject => {
+                const option = document.createElement("option");
+                option.value = subject.subject_name;
+                option.textContent = subject.subject_name;
+                subjectList.appendChild(option);
+            });
+        }
+
+        async function assignFaculty() {
+    const examElement = document.getElementById("examList");
+    const classElement = document.getElementById("classList");
+    const subjectElement = document.getElementById("subjectList");
+
+    const exam = examElement.options[examElement.selectedIndex].text;
+    const classValue = classElement.options[classElement.selectedIndex].text;
+    const subject = subjectElement.options[subjectElement.selectedIndex].text;
+
+    const rollFrom = document.getElementById("rollFrom").value.trim();
+    const rollTo = document.getElementById("rollTo").value.trim();
+    const assignmentContainer = document.getElementById("assignmentContainer");
+
+    if (!exam || !classValue || !subject || !rollFrom || !rollTo) {
+        alert("Please fill all fields.");
+        return;
+    }
+
+    assignmentContainer.innerHTML = "<h3>Assignment Progress</h3>";
+
+    const response = await fetch("assignbulk_faculty.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ exam, class: classValue, subject, rollFrom, rollTo }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+        alert(data.message);
+
+        let rollPrefix = rollFrom.slice(0, -2);
+        let start = parseInt(rollFrom.slice(-2));
+        let end = parseInt(rollTo.slice(-2));
+
+        let facultyList = data.facultyList; // Get actual faculty IDs
+        let facultyIndex = 0;
+
+        function animateAssignment(i) {
+            if (i > end) return;
+
+            let facultyId = facultyList[facultyIndex % facultyList.length];
+            let hallTicketNo = rollPrefix + String(i).padStart(2, "0");
+
+            let item = document.createElement("div");
+            item.classList.add("assignment-item");
+            item.innerHTML = `<span>Roll No: <b>${hallTicketNo}</b></span> 
+                              <span class="faculty-name">Faculty: <b>${facultyId}</b></span>
+                              <span class="checkmark">✅</span>`;
+
+            assignmentContainer.appendChild(item);
+            assignmentContainer.scrollTop = assignmentContainer.scrollHeight;
+
+            facultyIndex++;
+            setTimeout(() => animateAssignment(i + 1), 400); // Speed of animation
+        }
+
+        animateAssignment(start);
+    } else {
+        alert(data.message);
+    }
+}
+
+
+
+
+        window.onload = loadExams;
+        document.getElementById("examList").addEventListener("change", (e) => loadClasses(e.target.value));
+        document.getElementById("classList").addEventListener("change", (e) => loadSubjects(e.target.value));
+    </script>
+
+</body>
+</html>

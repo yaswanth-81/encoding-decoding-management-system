@@ -1,299 +1,323 @@
-# Encoding and Decoding Management System
+# Coding and Decoding Management System
 
-## 📘 Overview
+A comprehensive web-based educational management system designed to manage the encoding and decoding of student hall tickets during exam evaluations, ensuring fair and anonymous grading processes.
 
-The **Encoding and Decoding Management System** is a professional, web-based examination evaluation platform designed to ensure **fairness, anonymity, and integrity** in academic assessments.
+## 📋 Table of Contents
 
-The system eliminates evaluator bias by **replacing student hall ticket numbers with temporary encoded identifiers** during the evaluation process. Faculty members evaluate answer scripts using encoded numbers only, ensuring that student identity remains hidden until final result processing.
+- [Overview](#overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [Database Setup](#database-setup)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [User Roles](#user-roles)
+- [Project Structure](#project-structure)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
 
-This solution is ideal for **colleges, universities, and examination boards** that require transparent, secure, and unbiased evaluation workflows.
+## 🎯 Overview
 
----
+The Coding and Decoding Management System is an innovative solution that addresses the need for anonymous and unbiased exam evaluation. By encoding student hall ticket numbers during the evaluation process, the system ensures that faculty members evaluate answer sheets without knowing the student's identity, promoting fairness and objectivity in grading.
 
-## 🎯 Objectives
+### Key Benefits
 
-- Ensure anonymous examination evaluation
-- Prevent favoritism and manual tampering
-- Provide secure, role-based access
-- Automate encoding and decoding processes
-- Improve efficiency and transparency in exam management
+- **Anonymous Evaluation**: Hall tickets are encoded, ensuring unbiased grading
+- **Secure Access**: Role-based authentication for students, faculty, and administrators
+- **Efficient Management**: Streamlined exam, class, and subject management
+- **Real-time Results**: Students can view their results instantly after evaluation
+- **User-Friendly Interface**: Modern, responsive design for all devices
 
----
+## ✨ Features
 
-## ✨ Key Features
+### Student Features
+- Student registration and login
+- View exam results by selecting exam and class
+- Download results as images
+- Password recovery via email
+- Student dashboard with personalized information
+- Contact form for inquiries
 
-### 1. Multi-Portal Access
+### Faculty Features
+- Faculty registration and login
+- View assigned evaluation tasks
+- Assign marks to encoded hall tickets
+- Track evaluation history
+- Faculty dashboard
+- Notification system
 
-#### 👨‍🎓 Student Portal
-- Self-registration with detailed personal information
-- Secure login with encrypted passwords
-- Personalized dashboard
-- View final decoded examination results
-- Submit queries using the *Contact Us* feature
+### Office/Admin Features
+- Admin login portal
+- Add/Manage exams, classes, and subjects
+- Assign faculty to specific exams and subjects
+- Bulk faculty assignment
+- View class-wise and subject-wise results
+- Manage student and faculty data
+- Generate reports
 
-#### 👩‍🏫 Faculty / Teacher Portal
-- Secure role-based login
-- Access only assigned exams and subjects
-- Enter marks using **encoded numbers**
-- Complete anonymity of student identity
-- Restricted access to prevent unauthorized evaluations
+### System Features
+- Hall ticket encoding/decoding mechanism
+- Secure password hashing
+- Session management
+- Email notifications (via PHPMailer)
+- Responsive web design
+- AJAX-based dynamic content loading
 
-#### 🏢 Office / Admin Portal
-- Centralized administrative control
-- Manage exams, classes, and subjects
-- Register and assign faculty
-- Generate encoded hall ticket numbers
-- Decode results after evaluation
-- System-wide monitoring and control
-
----
-
-## 🔐 Anonymous Evaluation Logic
-
-### Encoding System
-- Office administrators generate **temporary encoded identifiers**
-- Original hall ticket numbers are hidden during evaluation
-- Encoded numbers ensure absolute anonymity
-
-### Faculty Assignment
-- Faculty are mapped to:
-  - Exams
-  - Subjects
-  - Encoded student identifiers
-- Prevents cross-access or data leakage
-
-### Evaluation Workflow
-1. Students register and appear for exams
-2. Office generates encoded numbers
-3. Faculty evaluate using encoded identifiers
-4. Marks are stored against encoded IDs
-5. System decodes and maps results
-6. Students view final results
-
----
-
-## 🛠 System Management
-
-- Dynamic creation and management of:
-  - Exams
-  - Classes
-  - Subjects
-- Faculty–subject mapping
-- Controlled evaluation access
-- Integrated *Contact Us* support module
-- Centralized result processing
-
----
-
-## 🔒 Security & Communication
-
-- Password hashing for all accounts
-- Secure PHP session handling
-- Role-based access control
-- Data isolation between portals
-- Integrated **PHPMailer (v6.9)** for email notifications
-
----
-
-## 🧰 Tech Stack
+## 🛠 Technology Stack
 
 ### Backend
-- PHP (Procedural)
-  - Session management
-  - Business logic
-  - Data processing
+- **PHP 7.4+** - Server-side scripting
+- **MySQL** - Database management
+- **PHPMailer 6.9+** - Email functionality
 
 ### Frontend
-- HTML5
-- CSS3 (Modern gradient UI)
-- Vanilla JavaScript
+- **HTML5** - Structure
+- **CSS3** - Styling with modern gradients and animations
+- **JavaScript** - Client-side interactivity
+- **jQuery 3.6.0** - AJAX requests and DOM manipulation
+- **html2canvas** - Result image generation
 
-### Database
-- MySQL / MariaDB (Relational)
+### Tools & Libraries
+- **Composer** - PHP dependency management
+- **PHPMailer** - Email sending capabilities
 
-### Mail
-- phpmailer/phpmailer
-- Dependency management using Composer
+## 📦 Installation
 
----
-## 📁 Project Structure (Original)
-~~~plaintext
-.
-├── a
-├── aboutus.html
-├── add_exam_subject.html
-├── add_exam_subject.php
-├── assign_faculty.html
-├── assign_faculty.php
-├── assign_marks.php
-├── assign_type.html
-├── assignbulk_faculty.html
-├── assignbulk_faculty.php
-├── class_result.php
-├── college.webp
-├── composer.json
-├── composer.lock
-├── contactus.html
-├── contactus.php
-├── dashboard.php
-├── database.sql
-├── debug_log.txt
-├── f_getresult.php
-├── f_result.php
-├── forgot_f_pass.php
-├── forgot_s_password.php
-├── gallery.html
-├── get_assignments.html
-├── get_assignments.php
-├── get_c.php
-├── get_classes.php
-├── get_exams.php
-├── get_filters.php
-├── get_results.php
-├── get_results_pdf.php
-├── get_subjects.php
-├── getfacultybysubjectcode.php
-├── go_for_evaluation.php
-├── index.html
-├── loginportal.html
-├── logout.php
-├── notification_select.html
-├── o_login.html
-├── office_db.sql
-├── results.php
-├── select_r_t.html
-├── service.html
-├── signup.html
-├── signup.php
-├── student_notification.php
-├── studentdashboard.php
-├── studentlogin.php
-├── studentlogout.php
-├── subject_result.php
-├── teacher_notification.php
-├── teacherlogin.html
-├── teacherlogin.php
-├── team.html
-└── vendor/
-~~~
+### Prerequisites
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
+- Apache/Nginx web server
+- Composer (for dependency management)
+- Web browser (Chrome, Firefox, Safari, Edge)
 
-## 🗄 Database Schema (Overview)
+### Step 1: Clone the Repository
+```bash
+git clone https://github.com/yourusername/coding-decoding-management-system.git
+cd coding-decoding-management-system
+```
 
-The system uses **two separate databases** for security and operational integrity.
+### Step 2: Install Dependencies
+```bash
+composer install
+```
 
-### `database_db` – Core Operations
+This will install PHPMailer and other required dependencies.
 
-| Table | Description |
-|-----|------------|
-| students | Student personal data and credentials |
-| faculty | Faculty profiles |
-| faculty_assignments | Mapping hall tickets to encoded numbers |
-| marks | Marks stored using encoded IDs |
-| exams | Examination details |
-| classes | Academic classes |
-| subjects | Subject information |
-| contact_us | User queries |
+### Step 3: Database Setup
+1. Create a MySQL database
+2. Import the database schema from `database.sql`
+3. Import office database from `office_db.sql` (for admin access)
 
-### `office_db` – Administration
+### Step 4: Configuration
+Update database credentials in all PHP files:
+- Replace database host, username, password, and database name
+- Update email configuration in PHPMailer settings (if using email features)
 
-| Table | Description |
-|------|------------|
-| office_users | Administrative credentials |
+### Step 5: Web Server Configuration
+- Place the project in your web server's document root (e.g., `htdocs`, `www`, or `public_html`)
+- Ensure PHP is enabled and MySQL extension is available
+- Set proper file permissions
 
----
+## 🗄 Database Setup
 
-## 🚀 Getting Started (Local Development)
+### Main Database (`database_db`)
+The system uses the following main tables:
 
-### 1. Prerequisites
+- **students** - Student information and credentials
+- **faculty** - Faculty information and credentials
+- **exams** - Exam details
+- **classes** - Class information linked to exams
+- **subjects** - Subject information linked to classes
+- **faculty_assignments** - Faculty-to-exam assignments with encoded numbers
+- **marks** - Student marks for exams
+- **contact_us** - Contact form submissions
 
-- PHP **7.4+**
-- MySQL / MariaDB
-- Composer
-- XAMPP / WAMP / LAMP
-- MySQL running on **Port 3307**
+### Office Database (`office_db`)
+- **office_users** - Administrative user credentials
 
----
+To set up the databases, run:
+```sql
+-- Import main database
+mysql -u username -p < database.sql
 
-## 👥 User Roles & Responsibilities
+-- Import office database
+mysql -u username -p < office_db.sql
+```
 
-### 🏢 Office / Admin
-- Create and manage exams, classes, and subjects
-- Register faculty members
-- Generate encoded hall ticket numbers
-- Assign faculty to specific exams and subjects
-- Decode marks after evaluation completion
-- Publish final results
+## ⚙️ Configuration
 
-### 👩‍🏫 Faculty
-- Log in securely
-- View only assigned exams and subjects
-- Enter marks using encoded identifiers
-- No access to student personal details
+### Database Configuration
+Update the following in all PHP files that require database connection:
+```php
+$host = "your_host";
+$username = "your_username";
+$password = "your_password";
+$database = "your_database";
+```
 
-### 👨‍🎓 Students
-- Self-register and log in
-- Access personalized dashboard
-- View decoded examination results
-- Submit queries via Contact Us module
+### Email Configuration (Optional)
+If you want to enable email features, configure PHPMailer in the relevant files:
+- `forgot_s_password.php`
+- `forgot_f_pass.php`
 
----
+## 🚀 Usage
 
-## 🔄 Evaluation Lifecycle
+### Accessing the System
+1. Open your web browser
+2. Navigate to `http://localhost/your-project-folder/`
+3. You'll be directed to the home page
 
-1. Student registration
-2. Hall ticket number allocation
-3. Encoding of hall ticket numbers
-4. Faculty evaluation using encoded IDs
-5. Secure storage of marks
-6. Decoding process
-7. Result publication
+### Student Login
+1. Click on "Login" from the home page
+2. Select "Student Login"
+3. Enter your roll number and password
+4. Access your dashboard and view results
 
----
+### Faculty Login
+1. Click on "Login" from the home page
+2. Select "Teacher Login"
+3. Enter your faculty ID and password
+4. Access assigned evaluations and assign marks
 
-## 🧪 Testing Checklist
+### Office/Admin Login
+1. Click on "Login" from the home page
+2. Select "Office Use"
+3. Enter admin credentials
+4. Manage exams, classes, subjects, and faculty assignments
 
-- Verify role-based access control
-- Ensure encoded numbers are unique
-- Validate decoding accuracy
-- Confirm faculty cannot view student identities
-- Test email notifications
-- Check SQL injection and session security
+## 👥 User Roles
 
----
+### 1. Student
+- **Registration**: Students can create accounts with personal details
+- **Login**: Access using roll number and password
+- **Dashboard**: View personalized information
+- **Results**: View and download exam results
+- **Password Recovery**: Reset password via email
 
----
+### 2. Faculty/Teacher
+- **Registration**: Faculty can register with their details
+- **Login**: Access using faculty ID and password
+- **Dashboard**: View assigned tasks
+- **Evaluation**: Assign marks to encoded hall tickets
+- **History**: Track evaluation progress
 
-## ❓ Troubleshooting
+### 3. Office/Administrator
+- **Login**: Access using admin credentials
+- **Management**: Add/manage exams, classes, and subjects
+- **Assignment**: Assign faculty to evaluation tasks
+- **Reports**: Generate class-wise and subject-wise reports
+- **Bulk Operations**: Perform bulk faculty assignments
 
-- Ensure MySQL is running on port **3307**
-- Confirm databases are imported correctly
-- Run `composer install` only in project root
-- Enable PHP extensions: `mysqli`, `openssl`
-- Use PHP version **7.4 or higher**
+## 📁 Project Structure
 
----
+```
+coding-decoding-management-system/
+│
+├── index.html                 # Home page
+├── loginportal.html           # Login portal
+├── signup.html                # Registration page
+├── signup.php                 # Registration handler
+│
+├── studentlogin.php           # Student login
+├── studentdashboard.php       # Student dashboard
+├── studentlogout.php          # Student logout
+├── results.php                # Results viewing page
+├── get_results.php            # AJAX results fetcher
+│
+├── teacherlogin.html          # Faculty login page
+├── teacherlogin.php           # Faculty login handler
+├── dashboard.php              # Faculty dashboard
+├── logout.php                 # Faculty logout
+├── go_for_evaluation.php      # Evaluation interface
+├── assign_marks.php           # Marks assignment
+│
+├── o_login.html               # Office login
+├── add_exam_subject.html      # Add exam/subject interface
+├── add_exam_subject.php       # Exam/subject handler
+├── assign_faculty.html        # Faculty assignment interface
+├── assign_faculty.php         # Faculty assignment handler
+├── assignbulk_faculty.html    # Bulk assignment interface
+├── assignbulk_faculty.php     # Bulk assignment handler
+│
+├── contactus.html             # Contact page
+├── contactus.php              # Contact form handler
+├── aboutus.html               # About page
+├── service.html               # Services page
+├── gallery.html               # Gallery page
+├── team.html                  # Team page
+│
+├── database.sql               # Main database schema
+├── office_db.sql              # Office database schema
+├── composer.json              # PHP dependencies
+├── composer.lock              # Dependency lock file
+│
+├── vendor/                    # Composer dependencies
+│   └── phpmailer/             # PHPMailer library
+│
+└── README.md                  # This file
+```
 
-## 🚀 Future Enhancements
+## 🔒 Security Features
 
-- OTP-based authentication
-- Audit logs for evaluations
-- Result analytics dashboard
-- REST API integration
-- Cloud deployment support
-- Mobile-responsive UI
+- Password hashing using PHP's `password_hash()` function
+- Prepared statements to prevent SQL injection
+- Session management for secure authentication
+- Input validation and sanitization
+- Role-based access control
 
----
+## 🎨 UI/UX Features
 
-## 📜 License
+- Modern gradient designs
+- Responsive layout for all devices
+- Smooth transitions and animations
+- User-friendly navigation
+- Intuitive dashboard interfaces
+- Dark mode support (on home page)
 
-This project is licensed under the **MIT License**.
+## 📝 Notes
 
----
+- **Database Credentials**: Remember to update database credentials in all PHP files before deployment
+- **Email Configuration**: Email features require proper SMTP configuration
+- **File Permissions**: Ensure proper file permissions for uploads (if any)
+- **Session Security**: Configure PHP session settings for production use
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👨‍💻 Author
 
-**Developed by:**  
-**N YASWANTH**
+Developed by N YASWANTH as  part of an educational management system project.
 
-For the **Encoding and Decoding Management System**
+## 🙏 Acknowledgments
+
+- PHPMailer for email functionality
+- jQuery team for the excellent library
+- All contributors and testers
+
+
+## 🔄 Version History
+
+- **v1.0.0** - Initial release
+  - Student registration and login
+  - Faculty registration and login
+  - Exam management
+  - Hall ticket encoding/decoding
+  - Results viewing
+  - Contact form
+
+---
+
+**Note**: This system is designed for educational institutions to manage exam evaluations with anonymity and fairness. Ensure proper security measures are in place before deploying to production.
 
